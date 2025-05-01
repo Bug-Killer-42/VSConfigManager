@@ -195,8 +195,7 @@ function vscode(){
         [string]$extraParam = ""
     )
     if($name -eq ""){
-        Write-Output "Error: Please input function name"
-        return
+        code
     }
     if($name -eq "push"){
         vscode.push $config $extraParam
@@ -229,4 +228,3 @@ Set-Alias vscode_delete vscode.delete
 Set-Alias vscode_replace vscode.replace
 Set-Alias vscode_clone vscode.clone
 Set-Alias vscode_init vscode.init
-Set-Alias vscode code
