@@ -1,6 +1,6 @@
 class VSCodeWorkSpaceToolsAPI{
-    [string]$fromConfigDefault=$this.configToPath("Default")
-    [string]$toConfigDefault=(Join-Path (Get-Location) ".vscode")
+    [string]$fromConfigDefault=''
+    [string]$toConfigDefault=''
     [void]newFile([string]$inputPath){
         if($this.isLegalPath(($inputPath))){
             if(!(Test-Path($inputPath))){
@@ -26,15 +26,8 @@ class VSCodeWorkSpaceToolsAPI{
         }
     }
     [bool]isStringIn([string]$metaData,[string]$matchesData){
-        for($i=0;$i -lt $metaData.length;$i++){
-            $now=$metaData[$i]
-            for($j=0;$j -lt $matchesData.length;$j++){
-                if($now -eq $matchesData[$j]){
-                    return $true
-                }
-            }
-        }
-        return $false
+        $escapedChars = ($matchesData.ToCharArray() | ForEach-Object { [regex]::Escape($_) }) -join ''
+        return $metaData -match "[$escapedChars]"
     }
     [bool]isPath([string]$inputData){
         if($inputData -match "^([a-zA-Z]\:|\.+)[\\\/]((.*[\\\/])?.*)?$"){
@@ -60,6 +53,8 @@ class VSCodeWorkSpaceToolsAPI{
         Write-Error "Error: Windows operating system not allow name contain: '<>|\/*.?`":'"
     }
     [object]init([string]$fromConfig="",[string]$toConfig=""){ # main
+        $this.fromConfigDefault=$this.configToPath("Default")
+        $this.toConfigDefault=(Join-Path (Get-Location) ".vscode")
         $this.repairDefault()
         if($this.haveData($fromConfig)){
             if(!($this.isLegalPath($fromConfig))){
