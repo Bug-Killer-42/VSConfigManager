@@ -12,7 +12,7 @@
 ##### 完整 [克隆](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) 本项目文件夹，
 ##### 运行此文件: 
 ```bash
-.\setup.ps1
+.\install.ps1
 ```
 
 

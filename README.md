@@ -10,7 +10,7 @@
 ##### Fully [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this project repository,
 ##### then run this file:
 ```bash
-.\setup.ps1
+.\install.ps1
 ```
 
 ## Commands

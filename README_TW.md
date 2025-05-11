@@ -10,7 +10,7 @@
 ##### 完整 [克隆](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) 本專案資料夾，
 ##### 執行此檔案: 
 ```bash
-.\setup.ps1
+.\install.ps1
 ```
 
 ## 命令
