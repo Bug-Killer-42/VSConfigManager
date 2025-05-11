@@ -183,7 +183,22 @@ function vscode.delete([string]$a="",[string]$b=""){
 function vscode.new([string]$a="",[string]$b=""){
     (init -a $a -b $b).vscode_new()
 }
-
+function vscode.help(){
+    Write-Host "VSCode WorkSpace Tools"
+    Write-Host "Usage:"
+    Write-Host "  vscode push [fromConfig] [toConfig]    Push configuration from source to destination"
+    Write-Host "  vscode pull [fromConfig] [toConfig]    Pull configuration from source to destination"
+    Write-Host "  vscode clone [fromConfig] [toConfig]   Clone configuration from source to destination"
+    Write-Host "  vscode replace [fromConfig] [toConfig] Replace configuration from source to destination"
+    Write-Host "  vscode delete [fromConfig]             Delete the specified configuration"
+    Write-Host "  vscode new [fromConfig]                Create a new configuration file"
+    Write-Host "  vscode init [fromConfig] [toConfig]    Initialize the configuration paths"
+    Write-Host "  vscode help                            Show this help message"
+    Write-Host "  vscode [command] [args]                Execute a command with arguments"
+    Write-Host "  vscode [command]                       Execute a command"
+    Write-Host "  vscode [paths/command]                 Use visual studio code to open the path or command"
+    Write-Host "  vscode                                 Open Visual Studio Code"
+}
 function vscode(){
     param(
         [string]$name = "",[string]$config = "",
@@ -211,8 +226,15 @@ function vscode(){
         vscode.new $config
     }elseif($name -eq "init"){
         init $config
+    }elseif($name -eq "help"){
+        vscode.help
     }else{
-        Write-Output "Error: No function 'vscode.$name'"
+        code $name $config $extraParam > $null 2>&1
+        if(!($LASTEXITCODE -eq 0)){
+            Write-Error "Error: Command not found: $name"
+            Write-Error "Error: Please check your command or install the program."
+            Write-Error "Error: You can use 'vscode help' command to get more information."
+        }
         return
     }
 }
