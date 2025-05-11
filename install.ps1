@@ -79,7 +79,7 @@ class UI {
         $this.title_en = "Installation Complete"
         $this.title_zh = "安装成功"
         $this.message_zh = "成功安装 $name！PowerShell 每次开启时会自动加载此文件。"
-        $this.message_zh_tw = "成功安裝 $name！PowerShell 每次開啟時會自動加載此腳本。"
+        $this.message_zh_tw = "成功安裝 $name！PowerShell 每次開啟時會自動載入此腳本。"
         $this.title_zh_tw = "安裝成功"
     }
     [void] data_asking_update([string]$name="main") {
@@ -95,16 +95,8 @@ class UI {
         $this.title_en = "Update Complete"
         $this.title_zh = "更新成功"
         $this.message_zh = "成功更新 $name！PowerShell 每次开启时会自动加载此文件。"
-        $this.message_zh_tw = "成功更新 $name！PowerShell 每次開啟時會自動加載此腳本。"
+        $this.message_zh_tw = "成功更新 $name！PowerShell 每次開啟時會自動載入此腳本。"
         $this.title_zh_tw = "更新成功"
-    }
-    [void] data_failed([string]$name="main") {
-        $this.message_en = "$name installed failed! It already installed!"
-        $this.title_en = "Installation Failed"
-        $this.title_zh = "安装失败"
-        $this.message_zh = "安装 $name 失败！该文件已存在。"
-        $this.message_zh_tw = "安裝 $name 失敗！該檔案已存在。"
-        $this.title_zh_tw = "安裝錯誤"
     }
 }
 main -install_file_name "VSConfigManager"
