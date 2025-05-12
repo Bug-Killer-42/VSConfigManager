@@ -206,8 +206,7 @@ function vscode(){
     )
     if($name -eq ""){
         code
-    }
-    if($name -eq "push"){
+    }elseif($name -eq "push"){
         vscode.push $config $extraParam
     }
     elseif($name -eq "pull"){
