@@ -1,3 +1,16 @@
+function uninstall_function([string]$uninstall_file_name="main") {
+    # Nothing
+}
+function clear-command(){
+    param(
+        [string]$command,
+        [string]$path
+    )
+    $read = Get-Content $path
+    $command = [Regex]::Escape($command)
+    $write = $read | Where-Object { $_ -notmatch $command }
+    Set-Content -Path $path -Value $write -Force
+}
 function main([string]$uninstall_file_name="main") {
     $install_file_name = $uninstall_file_name
     $obj=[UI]::new()
@@ -12,6 +25,11 @@ function main([string]$uninstall_file_name="main") {
         return
     }
     Clear-Host
+    $obj.asking_uninstall($install_file_name)
+    if ($obj.asking() -eq 2) {
+        return
+    }
+    uninstall_function -uninstall_file_name $uninstall_file_name
     [string]$dotCall = ". '$targetScriptPath'"
     [string[]]$lines = Get-Content $profilePath
     $lines = $lines | Where-Object { $_.Trim() -ne $dotCall.Trim() }
@@ -59,6 +77,14 @@ class UI {
     [int] asking(){
         $this.init()
         return $this.pop(0x1)
+    }
+    [void] asking_uninstall([string]$name="main") {
+        $this.message_en = "$name will be uninstalled! Are you sure?"
+        $this.message_zh = "确定要卸载 $name 吗？"
+        $this.message_zh_tw = "確定要解除安裝 $name 嗎？"
+        $this.title_en = "Uninstall"
+        $this.title_zh = "卸载"
+        $this.title_zh_tw = "解除安裝"
     }
     [void] data_success([string]$name="main") {
         $this.message_en = "$name installed successfully! It will auto-load on PowerShell startup."

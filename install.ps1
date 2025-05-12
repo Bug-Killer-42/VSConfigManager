@@ -1,4 +1,13 @@
-
+function install_function([string]$install_file_name="main") {
+    # Nothing
+}
+function add-command{
+    param(
+        [string]$command,
+        [string]$path
+    )
+    Add-Content -Path $path -Value "$command" -Force
+}
 function main([string]$install_file_name="main") {
     $obj=[UI]::new()
     [string]$scriptSource = Join-Path $PWD "$install_file_name.ps1"
@@ -15,8 +24,14 @@ function main([string]$install_file_name="main") {
             Remove-Item -Path (Join-Path $targetFolder *) -Recurse -Force > $null
             Remove-Item -Path $targetFolder -Recurse -Force > $null
         }
+    }else{
+        $obj.asking_install($install_file_name)
+        if($obj.asking() -eq 2){
+        return
+        }
     }
     Clear-Host
+    install_function -install_file_name $install_file_name
     New-Item -Path $targetFolder -ItemType Directory -Force > $null
     Copy-Item -Path "$scriptSource" -Destination "$targetScriptPath" -Force
 
@@ -25,7 +40,6 @@ function main([string]$install_file_name="main") {
     }
 
     [string]$profileContent = Get-Content $PROFILE -Raw
-    
     
     if ($profileContent -notmatch [regex]::Escape($dotCall)) {
         Add-Content -Path $PROFILE -Value "`n $dotCall" -Force
@@ -73,6 +87,14 @@ class UI {
     [int] asking(){
         $this.init()
         return $this.pop(0x1)
+    }
+    [void] asking_install([string]$name="main") {
+        $this.message_en = "Do you want to install $name ?"
+        $this.title_en = "Info"
+        $this.title_zh = "提示"
+        $this.message_zh = "确定要安装 $name 吗？"
+        $this.message_zh_tw = "確定要安裝 $name 嗎？"
+        $this.title_zh_tw = "提醒"
     }
     [void] data_success([string]$name="main") {
         $this.message_en = "$name installed successfully! It will auto-load on PowerShell startup."
