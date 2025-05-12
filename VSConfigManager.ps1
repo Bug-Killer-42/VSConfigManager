@@ -228,7 +228,7 @@ function vscode(){
     }elseif($name -eq "help"){
         vscode.help
     }else{
-        code $name $config $extraParam > $null 2>&1
+        code $name $config $extraParam
         if(!($LASTEXITCODE -eq 0)){
             Write-Error "Error: Command not found: $name"
             Write-Error "Error: Please check your command or install the program."
