@@ -42,7 +42,7 @@ function main([string]$install_file_name="main") {
     [string]$profileContent = Get-Content $PROFILE -Raw
     
     if ($profileContent -notmatch [regex]::Escape($dotCall)) {
-        Add-Content -Path $PROFILE -Value "`n $dotCall" -Force
+        add-command -command $dotCall -path $PROFILE
         $obj.data_success($install_file_name)
     }else{
         $obj.data_update_success($install_file_name)
